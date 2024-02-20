@@ -27,7 +27,7 @@ $this->addColumn({column_id}, array(
 ```
 And you are good to go!🥳 
 
-* Configuration of the "Status" column in the admin sales grid:
+e.g: Configuration of the "Status" column in the admin sales grid:
 ```php
 ...
 $this->addColumn('status', array(
