@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="1.0">
+    <default>
+        <reference name="js">
+            <block type="core/template" name="delazeri.grid.helper.filter.js" template="delazeri/gridhelper/widget/grid/column/filter/js.phtml"/>
+        </reference>
+    </default>
+</layout>

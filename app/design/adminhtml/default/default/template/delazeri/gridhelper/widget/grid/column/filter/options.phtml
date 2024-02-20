@@ -1,0 +1,59 @@
+<?php
+/** @var $this Delazeri_GridHelper_Block_Adminhtml_Widget_Grid_Column_Filter_Options */
+
+$_filterValues = explode(";", $this->getColumn()->getFilter()->getData('value'));
+$_htmlPrefix = $this::getHtmlPrefix();
+?>
+<div class="field-100" style="line-height: normal; position: relative">
+    <input type="text" name="<?= $this->_getHtmlName() ?>" id="<?= $this->_getHtmlId() ?>"
+           value="<?= $this->getEscapedValue() ?>" class="<?= $_htmlPrefix ?>-dropdown-input input-text no-changes disabled"
+           style="cursor: pointer" data-dropdown-id="<?= $this->_getDropdownId() ?>" readonly/>
+    <span class="<?= $_htmlPrefix ?>-dropdown-anchor"></span>
+</div>
+<div id='<?= $this->_getDropdownId() ?>' class='<?= $_htmlPrefix ?>-dropdown-check-list' tabindex='100'>
+    <ul class='<?= $_htmlPrefix ?>-dropdown-items'>
+        <?php foreach ($this->_getOptions() as $option): ?>
+            <li>
+                <input class="<?= $_htmlPrefix ?>-dropdown-option" type='checkbox'
+                       data-input-id="<?= $this->_getHtmlId() ?>"
+                       value='<?= $this->escapeHtml($option['value']) ?>' <?= in_array($option['value'], $_filterValues) ? 'checked' : ''; ?>/> <?= $this->escapeHtml($option['label']) ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+<style>
+    .<?= $_htmlPrefix ?>-dropdown-anchor {
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 6px solid #000;
+        transition: transform ease-in-out 0.3s;
+        position: absolute;
+        cursor: pointer;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .<?= $_htmlPrefix ?>-dropdown-check-list {
+        display: none;
+        position: absolute;
+        background: #FFFFFF;
+        max-height: 30vh;
+        overflow-y: auto;
+        border: 1px solid #bdbdbd;
+        border-top: 0;
+    }
+
+    .<?= $_htmlPrefix ?>-dropdown-check-list ul.<?= $_htmlPrefix ?>-dropdown-items {
+        padding: 5px;
+        margin: 0;
+        border-top: none;
+    }
+
+    .<?= $_htmlPrefix ?>-dropdown-check-list ul.<?= $_htmlPrefix ?>-dropdown-items li {
+        font-weight: normal;
+        list-style: none;
+    }
+
+</style>

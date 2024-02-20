@@ -1,0 +1,41 @@
+<?php
+$_htmlPrefix = Delazeri_GridHelper_Block_Adminhtml_Widget_Grid_Column_Filter_Options::getHtmlPrefix();
+$_delimiter = Delazeri_GridHelper_Block_Adminhtml_Widget_Grid_Column_Filter_Options::getValuesDelimiter();
+?>
+<script type="text/javascript">
+    document.observe("dom:loaded", function () {
+        document.observe("click", function (event) {
+            var element = Event.element(event);
+            var dropdownCheckLists = $$('.<?= $_htmlPrefix ?>-dropdown-check-list');
+            dropdownCheckLists.each(function (dropdownCheckList) {
+                if (!element.match('.<?= $_htmlPrefix ?>-dropdown-input') &&
+                    !element.descendantOf(dropdownCheckList) &&
+                    !element.match('.<?= $_htmlPrefix ?>-dropdown-option')) {
+                    dropdownCheckList.hide();
+                }
+            });
+        });
+
+        $(document.body).observe('click', function (event) {
+            var target = event.findElement('.<?= $_htmlPrefix ?>-dropdown-input');
+            if (target) {
+                var dropdown = $(target.dataset.dropdownId);
+                dropdown.setStyle({display: dropdown.getStyle('display') === 'none' ? 'block' : 'none'});
+            }
+        });
+
+        $(document.body).observe('change', function (event) {
+            var target = event.findElement('.<?= $_htmlPrefix ?>-dropdown-option');
+            if (target) {
+                var dropdown = target.up('.<?= $_htmlPrefix ?>-dropdown-check-list');
+                var filterOptions = [];
+                dropdown.select('input[type=checkbox]').each(function (checkbox) {
+                    if (checkbox.checked) {
+                        filterOptions.push(checkbox.value);
+                    }
+                });
+                $(target.dataset.inputId).value = filterOptions.join('<?= $_delimiter ?>');
+            }
+        });
+    });
+</script>

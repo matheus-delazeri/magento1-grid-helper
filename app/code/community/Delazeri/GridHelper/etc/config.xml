@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Delazeri_GridHelper>
+            <version>1.0.0</version>
+        </Delazeri_GridHelper>
+    </modules>
+    <global>
+        <helpers>
+            <gridhelper>
+                <class>Delazeri_GridHelper_Helper</class>
+            </gridhelper>
+        </helpers>
+        <blocks>
+            <gridhelper>
+                <class>Delazeri_GridHelper_Block</class>
+            </gridhelper>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_grid>Delazeri_GridHelper_Block_Adminhtml_Catalog_Product_Grid</catalog_product_grid>
+                    <sales_order_grid>Delazeri_GridHelper_Block_Adminhtml_Sales_Order_Grid</sales_order_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <gridhelper>
+                    <file>delazeri/gridhelper.xml</file>
+                </gridhelper>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>
