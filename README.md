@@ -3,13 +3,13 @@
 This is a very simple Magento 1 module that provides a new filter which allows filtering **any** grid column of type **_"Options"_** by more than one value at once!
 For example, this module rewrites the admin sales grid to add this new feature to the "Status" column:
 
-![image](https://github.com/matheus-delazeri/magento1-grid-helper/assets/55641441/2ca09cbd-9ac2-414b-909c-c6514994d79f)
+![image](https://github.com/matheus-delazeri/magento1-grid-helper/assets/55641441/0d172f95-e1da-4ba3-bfbd-293fa273f2da)
 
 This way you can filter the grid by more than one status option at once 😄
 
 It also rewrites the catalog grid to make it possible to filter by more than one product type at time:
 
-![image](https://github.com/matheus-delazeri/magento1-grid-helper/assets/55641441/d4ed5512-6427-4ed0-a44c-15f9ff16f301)
+![image](https://github.com/matheus-delazeri/magento1-grid-helper/assets/55641441/f4971272-de03-4602-bc49-cd2701925c94)
 
 ## Adding to your grid
 
