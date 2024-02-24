@@ -4,34 +4,83 @@
 $_filterValues = explode(";", $this->getColumn()->getFilter()->getData('value'));
 $_htmlPrefix = $this::getHtmlPrefix();
 ?>
-<div class="field-100" style="line-height: normal; position: relative">
+<div class="field-100 <?= $_htmlPrefix ?>-container">
     <input type="text" name="<?= $this->_getHtmlName() ?>" id="<?= $this->_getHtmlId() ?>"
-           value="<?= $this->getEscapedValue() ?>" class="<?= $_htmlPrefix ?>-dropdown-input input-text no-changes disabled"
-           style="cursor: pointer" data-dropdown-id="<?= $this->_getDropdownId() ?>" readonly/>
+           value="<?= $this->getEscapedValue() ?>"
+           class="<?= $_htmlPrefix ?>-dropdown-input input-text no-changes disabled"
+           data-values-id="<?= $this->_getValuesDivId() ?>"
+           style="display: none" readonly/>
+    <div class="<?= $_htmlPrefix ?>-values" id="<?= $this->_getValuesDivId() ?>"
+         data-dropdown-id="<?= $this->_getDropdownId() ?>"></div>
     <span class="<?= $_htmlPrefix ?>-dropdown-anchor"></span>
 </div>
 <div id='<?= $this->_getDropdownId() ?>' class='<?= $_htmlPrefix ?>-dropdown-check-list' tabindex='100'>
     <ul class='<?= $_htmlPrefix ?>-dropdown-items'>
         <?php foreach ($this->_getOptions() as $option): ?>
-            <li>
-                <input class="<?= $_htmlPrefix ?>-dropdown-option" type='checkbox'
-                       data-input-id="<?= $this->_getHtmlId() ?>"
-                       value='<?= $this->escapeHtml($option['value']) ?>' <?= in_array($option['value'], $_filterValues) ? 'checked' : ''; ?>/> <?= $this->escapeHtml($option['label']) ?>
+            <li><label>
+                    <input class="<?= $_htmlPrefix ?>-dropdown-option" type='checkbox'
+                           data-input-id="<?= $this->_getHtmlId() ?>"
+                           title="<?= $this->escapeHtml($option['label']) ?>"
+                           value='<?= $this->escapeHtml($option['value']) ?>' <?= in_array($option['value'], $_filterValues) ? 'checked' : ''; ?>/>
+                    <?= $this->escapeHtml($option['label']) ?>
+                </label>
             </li>
         <?php endforeach; ?>
     </ul>
 </div>
 
+<script>
+    document.observe("dom:loaded", function () {
+        initGridHelperDropdownValues()
+    })
+
+    initGridHelperDropdownValues()
+</script>
+
 <style>
+
+    th:has(> .<?= $_htmlPrefix?>-container) {
+        max-width: 0;
+    }
+
+    .<?= $_htmlPrefix ?>-container {
+        min-width: -moz-available;
+        min-width: -webkit-fill-available;
+        width: fit-content;
+        line-height: normal;
+        position: relative;
+        padding: 5px;
+    }
+
+    .<?= $_htmlPrefix ?>-values {
+        min-height: 10px;
+        cursor: pointer;
+        display: flex;
+        flex-wrap: wrap;
+        grid-gap: 3px;
+    }
+
+    .selected-value {
+        text-align: center;
+        border: 1px solid #cecece;
+        background: #dadfe0;
+        padding: 3px;
+        pointer-events: none;
+        font-size: 10px;
+        color: #444444;
+        font-weight: normal;
+    }
+
     .<?= $_htmlPrefix ?>-dropdown-anchor {
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
         border-top: 6px solid #000;
         transition: transform ease-in-out 0.3s;
         position: absolute;
+        pointer-events: none;
         cursor: pointer;
         right: 5px;
-        top: 50%;
+        top: 10px;
         transform: translateY(-50%);
     }
 
@@ -43,6 +92,7 @@ $_htmlPrefix = $this::getHtmlPrefix();
         overflow-y: auto;
         border: 1px solid #bdbdbd;
         border-top: 0;
+        z-index: 9999;
     }
 
     .<?= $_htmlPrefix ?>-dropdown-check-list ul.<?= $_htmlPrefix ?>-dropdown-items {

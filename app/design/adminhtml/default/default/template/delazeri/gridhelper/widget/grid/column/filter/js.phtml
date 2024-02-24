@@ -3,12 +3,25 @@ $_htmlPrefix = Delazeri_GridHelper_Block_Adminhtml_Widget_Grid_Column_Filter_Opt
 $_delimiter = Delazeri_GridHelper_Block_Adminhtml_Widget_Grid_Column_Filter_Options::getValuesDelimiter();
 ?>
 <script type="text/javascript">
+
+    function initGridHelperDropdownValues() {
+        $$(".grid-helper-values").each(function (el) {
+            el.innerHTML = '';
+            var checkList = $(el.dataset.dropdownId)
+            checkList.select('input[type=checkbox]').each(function (checkbox) {
+                if (checkbox.checked) {
+                    el.insert(`<span class="selected-value">${checkbox.title}</span>`)
+                }
+            });
+        })
+    }
+
     document.observe("dom:loaded", function () {
         document.observe("click", function (event) {
             var element = Event.element(event);
             var dropdownCheckLists = $$('.<?= $_htmlPrefix ?>-dropdown-check-list');
             dropdownCheckLists.each(function (dropdownCheckList) {
-                if (!element.match('.<?= $_htmlPrefix ?>-dropdown-input') &&
+                if (!element.match('.<?= $_htmlPrefix ?>-values') &&
                     !element.descendantOf(dropdownCheckList) &&
                     !element.match('.<?= $_htmlPrefix ?>-dropdown-option')) {
                     dropdownCheckList.hide();
@@ -17,7 +30,7 @@ $_delimiter = Delazeri_GridHelper_Block_Adminhtml_Widget_Grid_Column_Filter_Opti
         });
 
         $(document.body).observe('click', function (event) {
-            var target = event.findElement('.<?= $_htmlPrefix ?>-dropdown-input');
+            var target = event.findElement('.<?= $_htmlPrefix ?>-values');
             if (target) {
                 var dropdown = $(target.dataset.dropdownId);
                 dropdown.setStyle({display: dropdown.getStyle('display') === 'none' ? 'block' : 'none'});
@@ -25,17 +38,25 @@ $_delimiter = Delazeri_GridHelper_Block_Adminhtml_Widget_Grid_Column_Filter_Opti
         });
 
         $(document.body).observe('change', function (event) {
+
             var target = event.findElement('.<?= $_htmlPrefix ?>-dropdown-option');
             if (target) {
-                var dropdown = target.up('.<?= $_htmlPrefix ?>-dropdown-check-list');
+                var input = $(target.dataset.inputId)
+                var valuesEl = $(input.dataset.valuesId)
+                var checkList = target.up('.<?= $_htmlPrefix ?>-dropdown-check-list');
                 var filterOptions = [];
-                dropdown.select('input[type=checkbox]').each(function (checkbox) {
+
+                valuesEl.innerHTML = ''
+                checkList.select('input[type=checkbox]').each(function (checkbox) {
                     if (checkbox.checked) {
                         filterOptions.push(checkbox.value);
+                        valuesEl.insert(`<span class="selected-value">${checkbox.title}</span>`)
                     }
                 });
-                $(target.dataset.inputId).value = filterOptions.join('<?= $_delimiter ?>');
+
+                input.value = filterOptions.join('<?= $_delimiter ?>');
             }
         });
+
     });
 </script>

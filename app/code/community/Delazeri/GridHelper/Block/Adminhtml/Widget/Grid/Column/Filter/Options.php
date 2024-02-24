@@ -25,15 +25,16 @@ class Delazeri_GridHelper_Block_Adminhtml_Widget_Grid_Column_Filter_Options
 
     protected function _getDropdownId()
     {
-        return sprintf("%s-filter-dropdown-%s",
-            self::getHtmlPrefix(),
-            $this->getColumn()->getId()
+        return sprintf("%s-filter-dropdown",
+            $this->_getHtmlId()
         );
     }
-    
-    protected function _getHtmlId()
+
+    protected function _getValuesDivId()
     {
-        return sprintf("%s-%s", self::getHtmlPrefix(), parent::_getHtmlId());
+        return sprintf("%s-values",
+            $this->_getHtmlId()
+        );
     }
 
     public function getHtml()
